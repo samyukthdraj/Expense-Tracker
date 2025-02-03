@@ -6,7 +6,7 @@ import axios from 'axios';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/calendar.css';
-import ExpensesDashboard from '../components/ExpensesDashboard';
+import ExpensesDashboard from '../components/ExpensesDashboard.js';
 
 const ExpensesPage = () => {
     const [expenses, setExpenses] = useState([]);
