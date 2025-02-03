@@ -1,3 +1,5 @@
+// frontend/src/pages/HeroPage.js
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
