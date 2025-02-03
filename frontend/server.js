@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { fileURLToPath } from 'url';
 
 // Load env vars
 dotenv.config();
@@ -235,6 +236,9 @@ server.route('/api/expenses')
 server.route('/api/expenses/:id')
     .put(protect, updateExpense)
     .delete(protect, deleteExpense);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 server.use(express.static(path.join(__dirname, './build')));
 server.get('*', (req, res) => {
