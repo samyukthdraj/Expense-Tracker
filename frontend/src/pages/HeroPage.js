@@ -5,33 +5,30 @@ const HeroPage = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white flex flex-col">
-            {/* Navigation Bar */}
+        <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 text-white flex flex-col">
             <div className="flex justify-between items-center p-6">
                 <h1 className="text-2xl font-bold">Expense Tracker</h1>
-                <div>
-                </div>
             </div>
 
-            {/* Hero Section */}
             <div className="flex flex-grow justify-center items-center">
-                <div className="text-center space-y-6">
-                    <h2 className="text-4xl sm:text-6xl font-extrabold tracking-wide">
-                        Manage Your Finances Seamlessly
+                <div className="text-center space-y-8">
+                    <h2 className="text-5xl sm:text-6xl font-extrabold tracking-tight">
+                        Manage Your Finances
+                        <span className="block mt-2">With Ease</span>
                     </h2>
-                    <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto">
-                        Keep track of your expenses, set budgets, and achieve your financial goals with ease. Join now to get started!
+                    <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+                        Keep track of your expenses, set budgets, and achieve your financial goals effortlessly.
                     </p>
                     <div className="flex justify-center space-x-4">
                         <button
                             onClick={() => navigate('/signup')}
-                            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300"
+                            className="bg-white text-blue-600 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-blue-50 transition duration-300"
                         >
                             Get Started
                         </button>
                         <button
                             onClick={() => navigate('/login')}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300"
+                            className="bg-blue-400 bg-opacity-20 text-white font-bold py-3 px-8 rounded-lg hover:bg-opacity-30 transition duration-300 backdrop-blur-sm"
                         >
                             Log In
                         </button>
@@ -39,8 +36,7 @@ const HeroPage = () => {
                 </div>
             </div>
 
-            {/* Footer */}
-            <footer className="text-center p-4 bg-gray-800 text-gray-400">
+            <footer className="text-center p-4 text-blue-100 bg-blue-600/20 backdrop-blur-sm">
                 © {new Date().getFullYear()} Expense Tracker. All rights reserved.
             </footer>
         </div>

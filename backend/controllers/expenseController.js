@@ -10,14 +10,15 @@ const getExpenses = asyncHandler(async (req, res) => {
 
 // Create new expense
 const createExpense = asyncHandler(async (req, res) => {
-    const { title, amount, category, date } = req.body;
+    const { title, amount, category, date, reason } = req.body;  // Add reason to destructuring
 
     const expense = await Expense.create({
         user: req.user.id,
         title,
         amount,
         category,
-        date
+        date,
+        reason  // Include reason in creation
     });
 
     res.status(201).json(expense);
