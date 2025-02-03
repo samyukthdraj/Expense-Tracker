@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import ExpensesPage from './pages/ExpensesPage';
-import HeroPage from './pages/HeroPage'; // Import the HeroPage component
+import LoginPage from './pages/LoginPage.js';
+import SignupPage from './pages/SignupPage.js';
+import ExpensesPage from './pages/ExpensesPage.js';
+import HeroPage from './pages/HeroPage.js'; // Import the HeroPage component
 
 const PrivateRoute = ({ element }) => {
     const isAuthenticated = !!localStorage.getItem('token'); // Check if user is authenticated
