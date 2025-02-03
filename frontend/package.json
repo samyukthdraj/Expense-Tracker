@@ -6,7 +6,13 @@
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
     "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
     "cra-template": "1.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
     "react": "^19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
@@ -43,9 +49,9 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.1",
-     "shadcn-ui": "^0.9.4"
+    "shadcn-ui": "^0.9.4"
   },
-   "resolutions": {
+  "resolutions": {
     "tailwindcss": "4.0.0"
   }
 }
