@@ -179,16 +179,8 @@ const ExpensesPage = () => {
     
         if (!dayExpenses.length) return '';
     
-        let content = [];
-        dayExpenses.forEach(exp => {
-            content.push(`${exp.category}: ${exp.title}: ${currencySymbol}${exp.amount}`);
-        });
-    
         const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0);
-        content.push(``);
-        content.push(`Total: ${currencySymbol}${totalAmount}`); //Show the total amount
-    
-        return content.join('\n');
+        return `Total: ${currencySymbol}${totalAmount.toLocaleString()}`;
     };
 
     const pageCount = Math.ceil(filteredExpenses.length / itemsPerPage);
