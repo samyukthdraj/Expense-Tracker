@@ -13,8 +13,8 @@ const ExpensesDashboard = ({ expenses = [] }) => {
   const currencyOptions = [
     { symbol: '₹', label: 'INR (₹)' },
     { symbol: '$', label: 'USD ($)' },
-    { symbol: 'A$', label: 'AUD (A$)' },
-    { symbol: 'د.إ', label: 'AED (د.إ)' }
+    { symbol: 'AUD', label: 'Australian Dollars (AUD)' },
+    { symbol: 'AED', label: 'Dirhams (AED)' }
   ];
 
   const monthlyData = useMemo(() => {
