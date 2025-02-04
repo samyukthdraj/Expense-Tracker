@@ -173,21 +173,21 @@ const ExpensesPage = () => {
         const dayExpenses = expenses.filter(e => {
             const expenseDate = new Date(e.date);
             return expenseDate.getDate() === date.getDate() &&
-                expenseDate.getMonth() === date.getMonth() &&
-                expenseDate.getFullYear() === date.getFullYear();
+                   expenseDate.getMonth() === date.getMonth() &&
+                   expenseDate.getFullYear() === date.getFullYear();
         });
-
+    
         if (!dayExpenses.length) return '';
-
+    
         let content = [];
         dayExpenses.forEach(exp => {
             content.push(`${exp.category}: ${exp.title}: ${currencySymbol}${exp.amount}`);
         });
-
+    
         const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0);
         content.push(``);
         content.push(`Total: ${currencySymbol}${totalAmount}`); //Show the total amount
-
+    
         return content.join('\n');
     };
 
