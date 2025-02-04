@@ -369,7 +369,7 @@ const ExpensesPage = () => {
                             }}
                         /> */}
 
-                        <Calendar
+                        {/* <Calendar
                             onChange={handleDateSelect}
                             value={selectedDate}
                             className="w-full rounded-lg shadow-sm"
@@ -403,9 +403,9 @@ const ExpensesPage = () => {
                                     return (
                                         <div className="relative group">
                                             <div className="meal-dots">
-                                                <div className={`meal-dot ${hasBreakfast ? 'active' : ''}`} title={`Breakfast: ${currencySymbol}${breakFastAmount.toLocaleString()}`} /> {/* Fix: Apply amount*/}
-                                                <div className={`meal-dot ${hasLunch ? 'active' : ''}`} title={`Lunch: ${currencySymbol}${lunchAmount.toLocaleString()}`} /> {/* Fix: Apply amount*/}
-                                                <div className={`meal-dot ${hasDinner ? 'active' : ''}`} title={`Dinner: ${currencySymbol}${dinnerAmount.toLocaleString()}`} /> {/* Fix: Apply amount*/}
+                                                <div className={`meal-dot ${hasBreakfast ? 'active' : ''}`} title={`Breakfast: ${currencySymbol}${breakFastAmount.toLocaleString()}`} /> 
+                                                <div className={`meal-dot ${hasLunch ? 'active' : ''}`} title={`Lunch: ${currencySymbol}${lunchAmount.toLocaleString()}`} /> 
+                                                <div className={`meal-dot ${hasDinner ? 'active' : ''}`} title={`Dinner: ${currencySymbol}${dinnerAmount.toLocaleString()}`} /> 
                                             </div>
                                             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs invisible group-hover:visible whitespace-nowrap">
                                                 Total: {currencySymbol}{totalAmount.toLocaleString()}
@@ -415,7 +415,71 @@ const ExpensesPage = () => {
                                 }
                                 return null;
                             }}
+                        /> */}
+
+                        <Calendar
+                            onChange={handleDateSelect}
+                            value={selectedDate}
+                            className="w-full rounded-lg shadow-sm"
+                            tileClassName={({ date }) => {
+                                const today = new Date();
+                                const isToday =
+                                    date.getDate() === today.getDate() &&
+                                    date.getMonth() === today.getMonth() &&
+                                    date.getFullYear() === today.getFullYear();
+
+                                const dayExpenses = expenses.filter(e => {
+                                    const expenseDate = new Date(e.date);
+                                    return expenseDate.getDate() === date.getDate() &&
+                                        expenseDate.getMonth() === date.getMonth() &&
+                                        expenseDate.getFullYear() === date.getFullYear();
+                                });
+
+                                // Determine the class name based on conditions
+                                let className = '';
+                                if (dayExpenses.length > 0) {
+                                    className = 'expense-logged'; // Make the tile green if it has expenses
+                                }
+
+                                if (isToday) {
+                                    className = 'react-calendar__tile--now'; //Highlight the current day with the existing yellow
+                                }
+
+                                return className;
+                            }}
+                            tileContent={({ date }) => {
+                                const dayExpenses = expenses.filter(e => {
+                                    const expenseDate = new Date(e.date);
+                                    return expenseDate.getDate() === date.getDate() &&
+                                        expenseDate.getMonth() === date.getMonth() &&
+                                        expenseDate.getFullYear() === date.getFullYear();
+                                });
+
+                                if (dayExpenses.length > 0) {
+                                    const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
+                                    const breakFastAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Breakfast" ? sum + exp.amount : sum), 0);
+                                    const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
+                                    const lunchAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Lunch" ? sum + exp.amount : sum), 0);
+                                    const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
+                                    const dinnerAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Dinner" ? sum + exp.amount : sum), 0);
+
+                                    return (
+                                        <>
+                                            <div className="expense-tooltip">
+                                                {renderHoverContent(date)}
+                                            </div>
+                                            <div className="meal-dots">
+                                                <div title={breakFastAmount} className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
+                                                <div title={lunchAmount} className={`meal-dot ${hasLunch ? 'active' : ''}`} />
+                                                <div title={dinnerAmount} className={`meal-dot ${hasDinner ? 'active' : ''}`} />
+                                            </div>
+                                        </>
+                                    );
+                                }
+                                return null;
+                            }}
                         />
+
                      {/* Add a legend section to fill the gap */}
                     <div className="mt-6 p-4 bg-blue-50 rounded-lg">
                         <h4 className="text-sm font-bold text-gray-700 mb-2">Legend</h4>

@@ -30,11 +30,7 @@
     border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
 }
 
-.expense-logged {
-    background: #0d7955 !important;
-    border-radius: 50%;
-    color: white !important;
-}
+
 
 .react-calendar {
     height: 350px;
@@ -76,6 +72,12 @@
     background: #d68802 !important;
     color: white !important;
     border-radius: 50%;
+}
+
+.expense-logged {
+    background: #0d7955 !important;
+    border-radius: 50%;
+    color: white !important;
 }
 
 .react-calendar__tile:hover {
