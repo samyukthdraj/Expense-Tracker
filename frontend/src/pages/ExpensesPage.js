@@ -28,6 +28,13 @@ const ExpensesPage = () => {
     const [loading, setLoading] = useState(true);
     const itemsPerPage = 10;
     const navigate = useNavigate();
+    const [currencySymbol, setCurrencySymbol] = useState('₹');
+    const currencyOptions = [
+        { symbol: '₹', label: 'INR (₹)' },
+        { symbol: '$', label: 'USD ($)' },
+        { symbol: 'AUD', label: 'Australian Dollars (AUD)' },
+        { symbol: 'AED', label: 'Dirhams (AED)' }
+    ];
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -237,21 +244,27 @@ const ExpensesPage = () => {
                         </button>
                     </div>
                     
+
+
                     {/* Summary Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                        <div className="bg-blue-50 p-6 rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-blue-800">Monthly Expenses</h3>
-                            <p className="text-3xl font-bold text-blue-600 mt-2">₹ {totalMonthlyExpense.toLocaleString()}</p>
-                        </div>
-                        <div className="bg-blue-50 p-6 rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-blue-800">Yearly Expenses</h3>
-                            <p className="text-3xl font-bold text-blue-600 mt-2">₹ {yearlyExpense.toLocaleString()}</p>
-                        </div>
+
+                    <div className="bg-blue-50 p-6 rounded-lg shadow">
+                        <h3 className="text-lg font-semibold text-blue-800">Monthly Expenses</h3>
+                        <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {totalMonthlyExpense.toLocaleString()}</p>
                     </div>
-                </div>
+                    <div className="bg-blue-50 p-6 rounded-lg shadow">
+                        <h3 className="text-lg font-semibold text-blue-800">Yearly Expenses</h3>
+                        <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {yearlyExpense.toLocaleString()}</p>
+                    </div>
+                </div> 
 
                 {/* Add the dashboard component here */}
-                <ExpensesDashboard expenses={expenses} />
+                <ExpensesDashboard 
+                    expenses={expenses} 
+                    currencySymbol={currencySymbol}
+                    onCurrencyChange={setCurrencySymbol}
+                    currencyOptions={currencyOptions}
+                />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Left Column - Calendar and Filters */}
@@ -516,7 +529,7 @@ const ExpensesPage = () => {
                             <div className="flex justify-between items-center">
                                 <div className="space-y-1">
                                     <h4 className="text-lg font-semibold text-gray-800">{expense.title}</h4>
-                                    <p className="text-2xl font-bold text-blue-600">₹ {expense.amount.toLocaleString()}</p>
+                                    <p className="text-2xl font-bold text-blue-600"> {currencySymbol} {expense.amount.toLocaleString()}</p>
                                     <p className="text-sm text-gray-600">
                                         <span className="font-medium">{expense.category}</span>
                                         {expense.reason && expense.reason.trim() !== '' && (

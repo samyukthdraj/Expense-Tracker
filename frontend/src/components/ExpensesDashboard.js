@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 
 // Card Components
 const Card = ({ children }) => <div className="p-4 border rounded-lg shadow-md bg-white">{children}</div>;
@@ -7,16 +7,7 @@ const CardHeader = ({ children }) => <div className="p-2 border-b font-bold">{ch
 const CardTitle = ({ children }) => <h2 className="text-lg font-bold">{children}</h2>;
 
 // Main Dashboard Component
-const ExpensesDashboard = ({ expenses = [] }) => {
-  const [currencySymbol, setCurrencySymbol] = useState('₹');
-
-  const currencyOptions = [
-    { symbol: '₹', label: 'INR (₹)' },
-    { symbol: '$', label: 'USD ($)' },
-    { symbol: 'AUD', label: 'Australian Dollars (AUD)' },
-    { symbol: 'AED', label: 'Dirhams (AED)' }
-  ];
-
+const ExpensesDashboard = ({ expenses = [], currencySymbol, onCurrencyChange, currencyOptions }) => {
   const monthlyData = useMemo(() => {
     const data = Array(12).fill(0).map((_, i) => ({
       month: new Date(0, i).toLocaleString('default', { month: 'short' }),
@@ -56,7 +47,7 @@ const ExpensesDashboard = ({ expenses = [] }) => {
         <h2 className="text-2xl font-bold text-gray-800">Expense Analytics</h2>
         <select
           value={currencySymbol}
-          onChange={(e) => setCurrencySymbol(e.target.value)}
+          onChange={(e) => onCurrencyChange(e.target.value)}
           className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
         >
           {currencyOptions.map(option => (
