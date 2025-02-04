@@ -1,5 +1,3 @@
-// frontend/src/pages/ExpensesPage.js
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -172,49 +170,26 @@ const ExpensesPage = () => {
     };
 
     const renderHoverContent = (date) => {
-    const dayExpenses = expenses.filter(e => {
-        const expenseDate = new Date(e.date);
-        return expenseDate.getDate() === date.getDate() &&
-               expenseDate.getMonth() === date.getMonth() &&
-               expenseDate.getFullYear() === date.getFullYear();
-    });
-
-    if (!dayExpenses.length) return '';
-    
-    const meals = ['Breakfast', 'Lunch', 'Dinner'];
-    let content = [];
-    
-    meals.forEach(meal => {
-        const mealExpenses = dayExpenses.filter(e => e.category === meal);
-        if (mealExpenses.length > 0) {
-            content.push(`${meal}:`);
-            mealExpenses.forEach(exp => {
-                content.push(`  ${exp.title}: Rs ${exp.amount}`);
-                if (exp.reason) {
-                    content.push(`  Reason: ${exp.reason}`);
-                }
-            });
-            content.push('');
-        }
-    });
-    
-    const otherExpenses = dayExpenses.filter(e => !meals.includes(e.category));
-    if (otherExpenses.length > 0) {
-        content.push('Other Expenses:');
-        otherExpenses.forEach(exp => {
-            content.push(`  ${exp.title} (${exp.category}): Rs ${exp.amount}`);
-            if (exp.reason) {
-                content.push(`  Reason: ${exp.reason}`);
-            }
+        const dayExpenses = expenses.filter(e => {
+            const expenseDate = new Date(e.date);
+            return expenseDate.getDate() === date.getDate() &&
+                expenseDate.getMonth() === date.getMonth() &&
+                expenseDate.getFullYear() === date.getFullYear();
         });
-    }
-    
-    const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0);
-    content.push('');
-    content.push(`Total: Rs ${totalAmount}`);
-    
-    return content.join('\n');
-};
+
+        if (!dayExpenses.length) return '';
+
+        let content = [];
+        dayExpenses.forEach(exp => {
+            content.push(`${exp.category}: ${exp.title}: ${currencySymbol}${exp.amount}`);
+        });
+
+        const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+        content.push(``);
+        content.push(`Total: ${currencySymbol}${totalAmount}`); //Show the total amount
+
+        return content.join('\n');
+    };
 
     const pageCount = Math.ceil(filteredExpenses.length / itemsPerPage);
     const paginatedExpenses = filteredExpenses.slice(
@@ -243,26 +218,26 @@ const ExpensesPage = () => {
                             Logout
                         </button>
                     </div>
-                    
+
 
 
                     {/* Summary Cards */}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div className="bg-blue-50 p-6 rounded-lg shadow">
-                        <h3 className="text-lg font-semibold text-blue-800">Monthly Expenses</h3>
-                        <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {totalMonthlyExpense.toLocaleString()}</p>
-                    </div>
-                    <div className="bg-blue-50 p-6 rounded-lg shadow">
-                        <h3 className="text-lg font-semibold text-blue-800">Yearly Expenses</h3>
-                        <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {yearlyExpense.toLocaleString()}</p>
+                        <div className="bg-blue-50 p-6 rounded-lg shadow">
+                            <h3 className="text-lg font-semibold text-blue-800">Monthly Expenses</h3>
+                            <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {totalMonthlyExpense.toLocaleString()}</p>
+                        </div>
+                        <div className="bg-blue-50 p-6 rounded-lg shadow">
+                            <h3 className="text-lg font-semibold text-blue-800">Yearly Expenses</h3>
+                            <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {yearlyExpense.toLocaleString()}</p>
+                        </div>
                     </div>
                 </div>
-            </div> 
 
                 {/* Add the dashboard component here */}
-                <ExpensesDashboard 
-                    expenses={expenses} 
+                <ExpensesDashboard
+                    expenses={expenses}
                     currencySymbol={currencySymbol}
                     onCurrencyChange={setCurrencySymbol}
                     currencyOptions={currencyOptions}
@@ -289,134 +264,6 @@ const ExpensesPage = () => {
                             </select>
                         </div>
 
-                        {/* <Calendar
-                            onChange={handleDateSelect}
-                            value={selectedDate}
-                            className="w-full rounded-lg shadow-sm"
-                            tileClassName={({ date }) => {
-                                const dayExpenses = expenses.filter(e => {
-                                    const expenseDate = new Date(e.date);
-                                    return expenseDate.getDate() === date.getDate() &&
-                                        expenseDate.getMonth() === date.getMonth() &&
-                                        expenseDate.getFullYear() === date.getFullYear();
-                                });
-                                return dayExpenses.length > 0 ? 'expense-logged' : '';
-                            }}
-
-                            
-                            // tileContent={({ date }) => {
-                            //     const dayExpenses = expenses.filter(e => {
-                            //         const expenseDate = new Date(e.date);
-                            //         return expenseDate.getDate() === date.getDate() &&
-                            //             expenseDate.getMonth() === date.getMonth() &&
-                            //             expenseDate.getFullYear() === date.getFullYear();
-                            //     });
-
-                            //     if (dayExpenses.length > 0) {
-                            //         console.log(dayExpenses, 'dayExpenses')
-                            //         const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
-                            //         const breakFastAmount = dayExpenses.find(e => e.category === "Breakfast")?.amount ?? 0;
-                            //         const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
-                            //         const lunchAmount = dayExpenses.find(e => e.category === "Lunch")?.amount ?? 0;
-                            //         const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
-                            //         const dinnerAmount = dayExpenses.find(e => e.category === "Dinner")?.amount ?? 0;
-
-                            //         return (
-                            //             <>
-                            //                 <div className="expense-tooltip">
-                            //                     {renderHoverContent(date)}
-                            //                 </div>
-                            //                 <div className="meal-dots">
-                            //                     <div title={breakFastAmount} className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
-                            //                     <div title={lunchAmount} className={`meal-dot ${hasLunch ? 'active' : ''}`} />
-                            //                     <div title={dinnerAmount} className={`meal-dot ${hasDinner ? 'active' : ''}`} />
-                            //                 </div>
-                            //             </>
-                            //         );
-                            //     }
-                            //     return null;
-                            // }}
-
-
-                            tileContent={({ date }) => {
-                                const dayExpenses = expenses.filter(e => {
-                                    const expenseDate = new Date(e.date);
-                                    return expenseDate.getDate() === date.getDate() &&
-                                        expenseDate.getMonth() === date.getMonth() &&
-                                        expenseDate.getFullYear() === date.getFullYear();
-                                });
-                            
-                                if (dayExpenses.length > 0) {
-                                    const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0);
-                                    const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
-                                    const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
-                                    const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
-                            
-                                    return (
-                                        <div className="relative group">
-                                            <div className="meal-dots">
-                                                <div className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
-                                                <div className={`meal-dot ${hasLunch ? 'active' : ''}`} />
-                                                <div className={`meal-dot ${hasDinner ? 'active' : ''}`} />
-                                            </div>
-                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs invisible group-hover:visible whitespace-nowrap">
-                                                Total: {currencySymbol}{totalAmount.toLocaleString()}
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            }}
-                        /> */}
-
-                        {/* <Calendar
-                            onChange={handleDateSelect}
-                            value={selectedDate}
-                            className="w-full rounded-lg shadow-sm"
-                            tileClassName={({ date }) => {
-                                const dayExpenses = expenses.filter(e => {
-                                    const expenseDate = new Date(e.date);
-                                    return expenseDate.getDate() === date.getDate() &&
-                                        expenseDate.getMonth() === date.getMonth() &&
-                                        expenseDate.getFullYear() === date.getFullYear();
-                                });
-                                return dayExpenses.length > 0 ? 'expense-logged' : '';
-                            }}
-                            tileContent={({ date }) => {
-                                const dayExpenses = expenses.filter(e => {
-                                    const expenseDate = new Date(e.date);
-                                    return expenseDate.getDate() === date.getDate() &&
-                                        expenseDate.getMonth() === date.getMonth() &&
-                                        expenseDate.getFullYear() === date.getFullYear();
-                                });
-
-                                if (dayExpenses.length > 0) {
-                                    const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
-                                    const breakFastAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Breakfast" ? sum + exp.amount : sum), 0); //Fix: Use reduce for amount.
-                                    const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
-                                    const lunchAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Lunch" ? sum + exp.amount : sum), 0); //Fix: Use reduce for amount.
-                                    const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
-                                    const dinnerAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Dinner" ? sum + exp.amount : sum), 0); //Fix: Use reduce for amount.
-
-                                    const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0); // Extract total amount calculation
-
-                                    return (
-                                        <div className="relative group">
-                                            <div className="meal-dots">
-                                                <div className={`meal-dot ${hasBreakfast ? 'active' : ''}`} title={`Breakfast: ${currencySymbol}${breakFastAmount.toLocaleString()}`} /> 
-                                                <div className={`meal-dot ${hasLunch ? 'active' : ''}`} title={`Lunch: ${currencySymbol}${lunchAmount.toLocaleString()}`} /> 
-                                                <div className={`meal-dot ${hasDinner ? 'active' : ''}`} title={`Dinner: ${currencySymbol}${dinnerAmount.toLocaleString()}`} /> 
-                                            </div>
-                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs invisible group-hover:visible whitespace-nowrap">
-                                                Total: {currencySymbol}{totalAmount.toLocaleString()}
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            }}
-                        /> */}
-
                         <Calendar
                             onChange={handleDateSelect}
                             value={selectedDate}
@@ -441,8 +288,10 @@ const ExpensesPage = () => {
                                     className = 'expense-logged'; // Make the tile green if it has expenses
                                 }
 
-                                if (isToday) {
-                                    className = 'react-calendar__tile--now'; //Highlight the current day with the existing yellow
+                                if (isToday && dayExpenses.length > 0) { // If today has expenses logged
+                                    className = 'expense-logged react-calendar__tile--now'; // Combine classes to keep highlighting
+                                } else if (isToday) {
+                                    className = 'react-calendar__tile--now'; // Highlight the current day with the existing yellow
                                 }
 
                                 return className;

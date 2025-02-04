@@ -1,9 +1,10 @@
 /* src/styles/calendar.css */
 
+/* Tooltip Styling */
 .expense-tooltip {
     display: none;
     position: absolute !important;
-    bottom: calc(100% + 10px) !important; /* Increased distance from tile */
+    bottom: calc(100% + 10px) !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     background: rgba(0, 0, 0, 0.8) !important;
@@ -14,9 +15,12 @@
     white-space: pre-line !important;
     min-width: 120px !important;
     max-width: 200px !important;
+    max-height: 100px !important; /* Limit the height */
+    overflow-y: auto !important; /* Add scroll if content overflows */
     text-align: center !important;
     z-index: 1000 !important;
-    pointer-events: none !important; /* Prevents tooltip from interfering with hover */
+    pointer-events: none !important;
+    box-sizing: border-box !important;
 }
 
 .expense-tooltip::after {
@@ -30,8 +34,7 @@
     border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
 }
 
-
-
+/* General Calendar Styling */
 .react-calendar {
     height: 350px;
     width: 100% !important;
@@ -62,12 +65,14 @@
     height: auto !important;
 }
 
+/* Tile Styling */
 .react-calendar__tile {
     position: relative !important;
     overflow: visible !important; /* Ensures tooltip is visible */
     z-index: 1 !important;
 }
 
+/* Special State Tile Styling */
 .react-calendar__tile--now {
     background: #d68802 !important;
     color: white !important;
@@ -80,16 +85,21 @@
     color: white !important;
 }
 
+.react-calendar__tile--now.expense-logged {
+    background: #0d7955 !important;  /* Force override of --now background */
+}
+
+/* Hover Effect on Tiles */
 .react-calendar__tile:hover {
     z-index: 2 !important; /* Brings hovered tile to front */
 }
-
 
 .react-calendar__tile:hover .expense-tooltip {
     display: block !important;
     animation: fadeIn 0.2s ease-in-out !important;
 }
 
+/* Meal Dots */
 .meal-dots {
     display: flex;
     gap: 2px;
@@ -109,8 +119,7 @@
     background-color: red !important;
 }
 
-
-
+/* Fade-In Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -122,6 +131,7 @@
     }
 }
 
+/* Month Banner */
 .month-banner {
     position: sticky;
     top: 0;
@@ -139,6 +149,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Media Query */
 @media (max-width: 768px) {
     .react-calendar__tile {
         padding: 0.75em 0.25em !important;
