@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 // Card Components
 const Card = ({ children }) => <div className="p-4 border rounded-lg shadow-md bg-white">{children}</div>;
