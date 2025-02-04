@@ -1,6 +1,4 @@
-// frontend/src/components/ExpensesDashboard.js
-
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 // Card Components
 const Card = ({ children }) => <div className="p-4 border rounded-lg shadow-md bg-white">{children}</div>;
@@ -10,6 +8,15 @@ const CardTitle = ({ children }) => <h2 className="text-lg font-bold">{children}
 
 // Main Dashboard Component
 const ExpensesDashboard = ({ expenses = [] }) => {
+  const [currencySymbol, setCurrencySymbol] = useState('₹');
+
+  const currencyOptions = [
+    { symbol: '₹', label: 'INR (₹)' },
+    { symbol: '$', label: 'USD ($)' },
+    { symbol: 'A$', label: 'AUD (A$)' },
+    { symbol: 'د.إ', label: 'AED (د.إ)' }
+  ];
+
   const monthlyData = useMemo(() => {
     const data = Array(12).fill(0).map((_, i) => ({
       month: new Date(0, i).toLocaleString('default', { month: 'short' }),
@@ -45,7 +52,20 @@ const ExpensesDashboard = ({ expenses = [] }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Expense Analytics</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Expense Analytics</h2>
+        <select
+          value={currencySymbol}
+          onChange={(e) => setCurrencySymbol(e.target.value)}
+          className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+        >
+          {currencyOptions.map(option => (
+            <option key={option.symbol} value={option.symbol}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -54,7 +74,7 @@ const ExpensesDashboard = ({ expenses = [] }) => {
             <CardTitle>Average Expense</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{Math.round(stats.avgExpense).toLocaleString()}</div>
+            <div className="text-2xl font-bold">{currencySymbol}{Math.round(stats.avgExpense).toLocaleString()}</div>
             <p className="text-xs text-gray-500">Per transaction</p>
           </CardContent>
         </Card>
@@ -64,7 +84,7 @@ const ExpensesDashboard = ({ expenses = [] }) => {
             <CardTitle>Highest Expense</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{stats.maxExpense.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{currencySymbol}{stats.maxExpense.toLocaleString()}</div>
             <p className="text-xs text-gray-500">Single transaction</p>
           </CardContent>
         </Card>
@@ -74,7 +94,7 @@ const ExpensesDashboard = ({ expenses = [] }) => {
             <CardTitle>Lowest Expense</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₹{stats.minExpense.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{currencySymbol}{stats.minExpense.toLocaleString()}</div>
             <p className="text-xs text-gray-500">Single transaction</p>
           </CardContent>
         </Card>
@@ -101,15 +121,15 @@ const ExpensesDashboard = ({ expenses = [] }) => {
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th>Month</th>
-                    <th>Amount (₹)</th>
+                    <th className="text-left p-2">Month</th>
+                    <th className="text-right p-2">Amount ({currencySymbol})</th>
                   </tr>
                 </thead>
                 <tbody>
                   {monthlyData.map((data, index) => (
-                    <tr key={index}>
-                      <td>{data.month}</td>
-                      <td>{data.amount.toLocaleString()}</td>
+                    <tr key={index} className="border-t">
+                      <td className="p-2 text-left">{data.month}</td>
+                      <td className="p-2 text-right">{data.amount.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -127,15 +147,15 @@ const ExpensesDashboard = ({ expenses = [] }) => {
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th>Category</th>
-                    <th>Amount (₹)</th>
+                    <th className="text-left p-2">Category</th>
+                    <th className="text-right p-2">Amount ({currencySymbol})</th>
                   </tr>
                 </thead>
                 <tbody>
                   {categoryData.map((category, index) => (
-                    <tr key={index}>
-                      <td>{category.name}</td>
-                      <td>{category.value.toLocaleString()}</td>
+                    <tr key={index} className="border-t">
+                      <td className="p-2 text-left">{category.name}</td>
+                      <td className="p-2 text-right">{category.value.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>

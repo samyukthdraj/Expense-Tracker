@@ -1,4 +1,41 @@
 /* src/styles/calendar.css */
+
+.expense-tooltip {
+    display: none;
+    position: absolute !important;
+    bottom: calc(100% + 10px) !important; /* Increased distance from tile */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 8px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    white-space: pre-line !important;
+    min-width: 120px !important;
+    max-width: 200px !important;
+    text-align: center !important;
+    z-index: 1000 !important;
+    pointer-events: none !important; /* Prevents tooltip from interfering with hover */
+}
+
+.expense-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+.expense-logged {
+    background: #0d7955 !important;
+    border-radius: 50%;
+    color: white !important;
+}
+
 .react-calendar {
     height: 350px;
     width: 100% !important;
@@ -29,16 +66,10 @@
     height: auto !important;
 }
 
-/* Updated tile positioning */
 .react-calendar__tile {
     position: relative !important;
-    height: auto !important;
-    padding: 1em 0.5em !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer;
+    overflow: visible !important; /* Ensures tooltip is visible */
+    z-index: 1 !important;
 }
 
 .react-calendar__tile--now {
@@ -47,63 +78,46 @@
     border-radius: 50%;
 }
 
-.expense-logged {
-    background: #0d7955 !important;
+.react-calendar__tile:hover {
+    z-index: 2 !important; /* Brings hovered tile to front */
+}
+
+
+.react-calendar__tile:hover .expense-tooltip {
+    display: block !important;
+    animation: fadeIn 0.2s ease-in-out !important;
+}
+
+.meal-dots {
+    display: flex;
+    gap: 2px;
+    margin-top: 4px;
+    justify-content: center;
+}
+
+.meal-dot {
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    color: white !important;
+    background-color: #cccccc;
+    transition: background-color 0.2s ease;
 }
 
 .meal-dot.active {
     background-color: red !important;
 }
 
-/* Updated tooltip container */
-.expense-tooltip {
-    display: none;
-    position: absolute !important;
-    bottom: 100% !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    background: rgba(31, 41, 55, 0.95) !important;
-    color: white !important;
-    padding: 12px !important;
-    border-radius: 6px !important;
-    font-size: 12px !important;
-    white-space: pre-line !important;
-    width: 200px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    margin-bottom: 8px !important;
-    z-index: 9999 !important;
-}
 
-/* Show tooltip on hover */
-.react-calendar__tile:hover .expense-tooltip {
-    display: block !important;
-}
 
-/* Arrow for tooltip */
-.expense-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(31, 41, 55, 0.95) transparent transparent transparent;
-}
-
-.meal-dots {
-    display: flex;
-    gap: 2px;
-    margin-top: 2px;
-}
-
-.meal-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: #cccccc;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 5px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 .month-banner {

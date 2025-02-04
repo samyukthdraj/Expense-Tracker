@@ -1,0 +1,130 @@
+/* src/styles/calendar.css */
+.react-calendar {
+    height: 350px;
+    width: 100% !important;
+    margin: 0 !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 12px;
+    background-color: white !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.react-calendar__viewContainer {
+    height: 100%;
+    overflow: visible;
+}
+
+.react-calendar__month-view {
+    height: auto;
+    overflow: visible;
+}
+
+.react-calendar__month-view > div {
+    height: auto;
+}
+
+.react-calendar__month-view__days {
+    height: auto !important;
+}
+
+/* Updated tile positioning */
+.react-calendar__tile {
+    position: relative !important;
+    height: auto !important;
+    padding: 1em 0.5em !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+}
+
+.react-calendar__tile--now {
+    background: #d68802 !important;
+    color: white !important;
+    border-radius: 50%;
+}
+
+.expense-logged {
+    background: #0d7955 !important;
+    border-radius: 50%;
+    color: white !important;
+}
+
+.meal-dot.active {
+    background-color: red !important;
+}
+
+/* Updated tooltip container */
+.expense-tooltip {
+    display: none;
+    position: absolute !important;
+    bottom: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(31, 41, 55, 0.95) !important;
+    color: white !important;
+    padding: 12px !important;
+    border-radius: 6px !important;
+    font-size: 12px !important;
+    white-space: pre-line !important;
+    width: 200px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    margin-bottom: 8px !important;
+    z-index: 9999 !important;
+}
+
+/* Show tooltip on hover */
+.react-calendar__tile:hover .expense-tooltip {
+    display: block !important;
+}
+
+/* Arrow for tooltip */
+.expense-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(31, 41, 55, 0.95) transparent transparent transparent;
+}
+
+.meal-dots {
+    display: flex;
+    gap: 2px;
+    margin-top: 2px;
+}
+
+.meal-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #cccccc;
+}
+
+.month-banner {
+    position: sticky;
+    top: 0;
+    background: white !important;
+    color: #1F2937 !important;
+    border-bottom: 2px solid #E5E7EB !important;
+    padding: 25px;
+    z-index: 1000;
+    font-size: 1.5em;
+    height: 30px;
+    margin-top: 30px;
+    line-height: 5px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .react-calendar__tile {
+        padding: 0.75em 0.25em !important;
+    }
+}

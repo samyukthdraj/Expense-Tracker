@@ -287,6 +287,38 @@ const ExpensesPage = () => {
                                 });
                                 return dayExpenses.length > 0 ? 'expense-logged' : '';
                             }}
+                            // tileContent={({ date }) => {
+                            //     const dayExpenses = expenses.filter(e => {
+                            //         const expenseDate = new Date(e.date);
+                            //         return expenseDate.getDate() === date.getDate() &&
+                            //             expenseDate.getMonth() === date.getMonth() &&
+                            //             expenseDate.getFullYear() === date.getFullYear();
+                            //     });
+
+                            //     if (dayExpenses.length > 0) {
+                            //         console.log(dayExpenses, 'dayExpenses')
+                            //         const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
+                            //         const breakFastAmount = dayExpenses.find(e => e.category === "Breakfast")?.amount ?? 0;
+                            //         const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
+                            //         const lunchAmount = dayExpenses.find(e => e.category === "Lunch")?.amount ?? 0;
+                            //         const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
+                            //         const dinnerAmount = dayExpenses.find(e => e.category === "Dinner")?.amount ?? 0;
+
+                            //         return (
+                            //             <>
+                            //                 <div className="expense-tooltip">
+                            //                     {renderHoverContent(date)}
+                            //                 </div>
+                            //                 <div className="meal-dots">
+                            //                     <div title={breakFastAmount} className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
+                            //                     <div title={lunchAmount} className={`meal-dot ${hasLunch ? 'active' : ''}`} />
+                            //                     <div title={dinnerAmount} className={`meal-dot ${hasDinner ? 'active' : ''}`} />
+                            //                 </div>
+                            //             </>
+                            //         );
+                            //     }
+                            //     return null;
+                            // }}
                             tileContent={({ date }) => {
                                 const dayExpenses = expenses.filter(e => {
                                     const expenseDate = new Date(e.date);
@@ -294,27 +326,24 @@ const ExpensesPage = () => {
                                         expenseDate.getMonth() === date.getMonth() &&
                                         expenseDate.getFullYear() === date.getFullYear();
                                 });
-
+                            
                                 if (dayExpenses.length > 0) {
-                                    console.log(dayExpenses, 'dayExpenses')
+                                    const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0);
                                     const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
-                                    const breakFastAmount = dayExpenses.find(e => e.category === "Breakfast")?.amount ?? 0;
                                     const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
-                                    const lunchAmount = dayExpenses.find(e => e.category === "Lunch")?.amount ?? 0;
                                     const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
-                                    const dinnerAmount = dayExpenses.find(e => e.category === "Dinner")?.amount ?? 0;
-
+                            
                                     return (
-                                        <>
-                                            <div className="expense-tooltip">
-                                                {renderHoverContent(date)}
-                                            </div>
+                                        <div className="relative group">
                                             <div className="meal-dots">
-                                                <div title={breakFastAmount} className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
-                                                <div title={lunchAmount} className={`meal-dot ${hasLunch ? 'active' : ''}`} />
-                                                <div title={dinnerAmount} className={`meal-dot ${hasDinner ? 'active' : ''}`} />
+                                                <div className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
+                                                <div className={`meal-dot ${hasLunch ? 'active' : ''}`} />
+                                                <div className={`meal-dot ${hasDinner ? 'active' : ''}`} />
                                             </div>
-                                        </>
+                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs invisible group-hover:visible whitespace-nowrap">
+                                                Total: ₹{totalAmount.toLocaleString()}
+                                            </div>
+                                        </div>
                                     );
                                 }
                                 return null;
