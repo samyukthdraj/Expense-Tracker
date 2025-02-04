@@ -248,6 +248,7 @@ const ExpensesPage = () => {
 
                     {/* Summary Cards */}
 
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div className="bg-blue-50 p-6 rounded-lg shadow">
                         <h3 className="text-lg font-semibold text-blue-800">Monthly Expenses</h3>
                         <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {totalMonthlyExpense.toLocaleString()}</p>
@@ -256,7 +257,8 @@ const ExpensesPage = () => {
                         <h3 className="text-lg font-semibold text-blue-800">Yearly Expenses</h3>
                         <p className="text-3xl font-bold text-blue-600 mt-2">{currencySymbol} {yearlyExpense.toLocaleString()}</p>
                     </div>
-                </div> 
+                </div>
+            </div> 
 
                 {/* Add the dashboard component here */}
                 <ExpensesDashboard 
@@ -287,7 +289,7 @@ const ExpensesPage = () => {
                             </select>
                         </div>
 
-                        <Calendar
+                        {/* <Calendar
                             onChange={handleDateSelect}
                             value={selectedDate}
                             className="w-full rounded-lg shadow-sm"
@@ -300,6 +302,8 @@ const ExpensesPage = () => {
                                 });
                                 return dayExpenses.length > 0 ? 'expense-logged' : '';
                             }}
+
+                            
                             // tileContent={({ date }) => {
                             //     const dayExpenses = expenses.filter(e => {
                             //         const expenseDate = new Date(e.date);
@@ -332,6 +336,8 @@ const ExpensesPage = () => {
                             //     }
                             //     return null;
                             // }}
+
+
                             tileContent={({ date }) => {
                                 const dayExpenses = expenses.filter(e => {
                                     const expenseDate = new Date(e.date);
@@ -354,7 +360,55 @@ const ExpensesPage = () => {
                                                 <div className={`meal-dot ${hasDinner ? 'active' : ''}`} />
                                             </div>
                                             <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs invisible group-hover:visible whitespace-nowrap">
-                                                Total: ₹{totalAmount.toLocaleString()}
+                                                Total: {currencySymbol}{totalAmount.toLocaleString()}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            }}
+                        /> */}
+
+                        <Calendar
+                            onChange={handleDateSelect}
+                            value={selectedDate}
+                            className="w-full rounded-lg shadow-sm"
+                            tileClassName={({ date }) => {
+                                const dayExpenses = expenses.filter(e => {
+                                    const expenseDate = new Date(e.date);
+                                    return expenseDate.getDate() === date.getDate() &&
+                                        expenseDate.getMonth() === date.getMonth() &&
+                                        expenseDate.getFullYear() === date.getFullYear();
+                                });
+                                return dayExpenses.length > 0 ? 'expense-logged' : '';
+                            }}
+                            tileContent={({ date }) => {
+                                const dayExpenses = expenses.filter(e => {
+                                    const expenseDate = new Date(e.date);
+                                    return expenseDate.getDate() === date.getDate() &&
+                                        expenseDate.getMonth() === date.getMonth() &&
+                                        expenseDate.getFullYear() === date.getFullYear();
+                                });
+
+                                if (dayExpenses.length > 0) {
+                                    const hasBreakfast = dayExpenses.some(e => e.category === 'Breakfast');
+                                    const breakFastAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Breakfast" ? sum + exp.amount : sum), 0); //Fix: Use reduce for amount.
+                                    const hasLunch = dayExpenses.some(e => e.category === 'Lunch');
+                                    const lunchAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Lunch" ? sum + exp.amount : sum), 0); //Fix: Use reduce for amount.
+                                    const hasDinner = dayExpenses.some(e => e.category === 'Dinner');
+                                    const dinnerAmount = dayExpenses.reduce((sum, exp) => (exp.category === "Dinner" ? sum + exp.amount : sum), 0); //Fix: Use reduce for amount.
+
+                                    const totalAmount = dayExpenses.reduce((sum, exp) => sum + exp.amount, 0); // Extract total amount calculation
+
+                                    return (
+                                        <div className="relative group">
+                                            <div className="meal-dots">
+                                                <div className={`meal-dot ${hasBreakfast ? 'active' : ''}`} title={`Breakfast: ${currencySymbol}${breakFastAmount.toLocaleString()}`} /> {/* Fix: Apply amount*/}
+                                                <div className={`meal-dot ${hasLunch ? 'active' : ''}`} title={`Lunch: ${currencySymbol}${lunchAmount.toLocaleString()}`} /> {/* Fix: Apply amount*/}
+                                                <div className={`meal-dot ${hasDinner ? 'active' : ''}`} title={`Dinner: ${currencySymbol}${dinnerAmount.toLocaleString()}`} /> {/* Fix: Apply amount*/}
+                                            </div>
+                                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs invisible group-hover:visible whitespace-nowrap">
+                                                Total: {currencySymbol}{totalAmount.toLocaleString()}
                                             </div>
                                         </div>
                                     );
