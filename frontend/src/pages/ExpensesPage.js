@@ -310,9 +310,9 @@ const ExpensesPage = () => {
                                                 {renderHoverContent(date)}
                                             </div>
                                             <div className="meal-dots">
-                                                <div title={breakFastAmount} className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
-                                                <div title={lunchAmount} className={`meal-dot ${hasLunch ? 'active' : ''}`} />
-                                                <div title={dinnerAmount} className={`meal-dot ${hasDinner ? 'active' : ''}`} />
+                                            <div title={`Breakfast: ${currencySymbol}${breakFastAmount.toLocaleString()}`} className={`meal-dot ${hasBreakfast ? 'active' : ''}`} />
+                                            <div title={`Lunch: ${currencySymbol}${lunchAmount.toLocaleString()}`} className={`meal-dot ${hasLunch ? 'active' : ''}`} />
+                                            <div title={`Dinner: ${currencySymbol}${dinnerAmount.toLocaleString()}`} className={`meal-dot ${hasDinner ? 'active' : ''}`} />
                                             </div>
                                         </>
                                     );

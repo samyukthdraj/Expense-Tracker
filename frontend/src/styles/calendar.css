@@ -15,7 +15,6 @@
     min-width: 120px !important;
     max-width: 200px !important;
     max-height: 100px !important; /* Limit the height */
-    overflow-y: auto !important; /* Add scroll if content overflows */
     text-align: center !important;
     z-index: 1000 !important;
     pointer-events: none !important;
